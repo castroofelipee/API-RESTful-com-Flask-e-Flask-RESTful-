@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pinn Task Manager</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #1a1a1a;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1 class="mb-4">Pinn Task Manager</h1>
+
+    <div class="custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input" id="themeSwitch">
+        <label class="custom-control-label" for="themeSwitch">Modo Escuro</label>
+    </div>
+
+    <form id="taskForm">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Nova Tarefa" id="taskInput" required>
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">Adicionar</button>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="dueDateInput">Data de Inspiração:</label>
+            <input type="date" class="form-control" id="dueDateInput">
+        </div>
+    </form>
+
+    <ul class="list-group" id="taskList"></ul>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const themeSwitch = document.getElementById('themeSwitch');
+        const body = document.body;
+
+        themeSwitch.addEventListener('change', function() {
+            body.classList.toggle('dark-mode', themeSwitch.checked);
+        });
+
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            body.classList.add('dark-mode');
+            themeSwitch.checked = true;
+        }
+    });
+
+    window.addEventListener('beforeunload', function() {
+        const theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+        localStorage.setItem('theme', theme);
+    });
+</script>
+
+</body>
+</html>
